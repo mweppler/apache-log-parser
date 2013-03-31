@@ -1,3 +1,6 @@
+[![Build
+Status](https://travis-ci.org/mweppler/apache-log-parser.png)](https://travis-ci.org/mweppler/apache-log-parser)
+
 _its just kind of a scratch your own itch thing right now..._
 
 

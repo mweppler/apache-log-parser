@@ -12,7 +12,7 @@ class ApacheLogEntry
     @resource = /\s(.*?)\s/.match(@request)[1]
   end
 
-  def protocol 
+  def protocol
     @protocol = /\s(HTTP.*)$/.match(@request)[1]
   end
 

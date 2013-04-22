@@ -1,11 +1,8 @@
-[![Build
-Status](https://travis-ci.org/mweppler/apache-log-parser.png)](https://travis-ci.org/mweppler/apache-log-parser)
+[![Build Status](https://travis-ci.org/mweppler/apache-log-parser.png)](https://travis-ci.org/mweppler/apache-log-parser)  
 
-_its just kind of a scratch your own itch thing right now..._
+_its just kind of a scratch your own itch thing right now..._  
 
-
-## Example Usage:
-
+## Example Usage:  
 
     #!/usr/bin/env ruby
 

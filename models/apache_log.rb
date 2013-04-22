@@ -1,13 +1,9 @@
 require_relative 'apache_log_entry'
-require 'gruff'
-require 'scruffy'
-require 'pry'
 
 # Parses log files that use the combined log format.
 # NCSA extended/combined log format
 #   "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
 class ApacheLog
-
   attr_accessor :entries, :file, :day_hours, :remote_hosts, :requests_hours, :requests, :status_codes, :time_processeds, :user_agents
 
   def initialize(file = nil)
@@ -44,17 +40,6 @@ class ApacheLog
     end
   end
 
-  def group_by_request_hour
-    @request_hour = {}
-    @entries.each do |entry|
-      if @request_hour.key? [entry.request, entry.time_processed.hour]
-        @request_hour[[entry.request, entry.time_processed.hour]] += 1
-      else
-        @request_hour[[entry.request, entry.time_processed.hour]]  = 0
-      end
-    end
-  end
-
   def group_by_day_hours
     @day_hours = {}
     @entries.each do |entry|
@@ -66,15 +51,27 @@ class ApacheLog
     end
   end
 
+  def group_by_request_hour
+    @request_hour = {}
+    @entries.each do |entry|
+      if @request_hour.key? [entry.request, entry.time_processed.hour]
+        @request_hour[[entry.request, entry.time_processed.hour]] += 1
+      else
+        @request_hour[[entry.request, entry.time_processed.hour]]  = 0
+      end
+    end
+  end
+
   def parse!
     if @file.nil?
       return -1
     else
-      @entries = []
+      @entries ||= []
       pattern = /([^\s]*) ([^\s]*) ([^\s]*) (\[.*\]) "(.*?)" (\d+) (\d+) "(.*?)" "(.*?)"/
       puts "Loading file: #{@file.path}"
-      # start_time = Time.now
+      # parse_time = Time.now
       File.open(@file, 'r') do |file|
+        #inc = 1
         file.lines do |line|
           line.match(pattern) do |m|
             entry = ApacheLogEntry.new
@@ -89,12 +86,11 @@ class ApacheLog
             entry.user_agent     = m[9]
             @entries << entry
           end
-          # print "."
+          # print "." if inc % 10 == 0
+          #inc += 1
         end
       end
-      # elapsed = Time.now - start_time
-      # puts elapsed
-      # print "\n"
+      # puts "parsed file in: #{Time.now - parse_time} seconds\n"
       if @entries.empty?
         @entries << ApacheLogEntry.new
       end

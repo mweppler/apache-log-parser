@@ -5,6 +5,7 @@ GEM
     coderay (1.0.9)
     diff-lcs (1.2.2)
     gruff (0.3.7)
+    json (1.7.7)
     method_source (0.8.1)
     pry (0.9.12)
       coderay (~> 1.0.5)
@@ -29,6 +30,7 @@ PLATFORMS
 DEPENDENCIES
   builder
   gruff
+  json
   pry
   rake
   rmagick
